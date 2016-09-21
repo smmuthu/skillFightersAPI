@@ -76,11 +76,10 @@ class UserController extends Controller
     {        
         try {
             $user = User::findOrFail($id);    
+            return response()->json(['status_code'=>200,'error'=>false,'user'=>$user],200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['status_code'=>404,'error'=>true,'message'=>'User not found.'],404);
-        }
-                
-        return response()->json(['status_code'=>200,'error'=>false,'user'=>$user],200);
+        }                    
     }
 
     /**
@@ -102,32 +101,28 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {        
-        $user = User::findOrFail($id);
-        $user->name = Input::get('name');
-        // $user->unit          = Input::get('unit');
-        // $user->unit_price    = Input::get('unit_price');
-        // $user->average_price = Input::get('average_price');
-        // $item->store_id      = Input::get('store');
-        $user->save();
-        // $user->update($request->all());
-        // if ($request->get('name'))
-        // {
-        //     echo "test";exit;
-        //     $name = $request->get('name');
-        //     echo $name;exit;
-        //     $user->update(array('name'=>$name));
-        // }     
-        // if ($request->input('email'))
-        // {
-        //     $email = $request->input('email');
-        //     $user->update(array('email'=>$email));
-        // }
-        // if ($request->input('password'))
-        // {
-        //     $password = Hash::make($request->input('password'));
-        //     $user->update(array('password'=>$password));
-        // }
+    {   
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['status_code'=>404,'error'=>true,'message'=>'User not found.'],404);
+        } 
+        $user->update($request->all());
+        if ($request->input('name'))
+        {
+            $name = $request->input('name');
+            $user->update(array('name'=>$name));
+        }     
+        if ($request->input('email'))
+        {
+            $email = $request->input('email');
+            $user->update(array('email'=>$email));
+        }
+        if ($request->input('password'))
+        {
+            $password = Hash::make($request->input('password'));
+            $user->update(array('password'=>$password));
+        }
      
         return response()->json(['status_code'=>200,'error'=>false, 'message'=>'User data has been updated successfully.', 'user'=>$user],200);
     }
@@ -140,6 +135,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);            
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['status_code'=>404,'error'=>true,'message'=>'User not found.'],404);
+        }
+        if($user->id){
+            $user->delete();
+            return response()->json(['status_code'=>200,'error'=>false,'message'=>'User has been deleted.'],200);
+        }
     }
 }

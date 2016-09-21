@@ -26,4 +26,5 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'auth.basic'), function()
     Route::resource('user', 'UserController');
     Route::get('user/{id}', 'UserController@show');
     Route::put('user/{id}', 'UserController@update');
+    Route::delete('user/{id}', 'UserController@destroy');
 });
