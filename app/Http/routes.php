@@ -20,6 +20,7 @@ Route::group(['prefix' => 'api'], function()
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::resource('user', 'UserController');
     Route::post('user', 'UserController@store');
+    Route::get('sendbasicemail','MailController@basic_email');
 });
 Route::group(array('prefix' => 'api/v1', 'before' => 'auth.basic'), function()
 {

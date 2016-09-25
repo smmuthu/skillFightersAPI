@@ -16,6 +16,10 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Illuminate\Support\Facades\Input;
 
+use Mail;
+
+use App\Http\Controllers\Controller;
+
 class UserController extends Controller
 {
     /**
@@ -60,8 +64,14 @@ class UserController extends Controller
             return response()->json(['status_code'=>404,'message'=>'Invalid.','error'=>true,'validation'=>$messages],404);
         }
         else{
-            $data['password'] = Hash::make($request->input('password'));
+            $data['password'] = Hash::make($request->input('password'));                        
             $user = User::create($data);
+            $name = array('name'=>$request->input('name'));
+            $email = $request->input('email');
+            Mail::send('user.mail.welcome', $name, function($message) use ($user) {
+                $message->to($user->email, 'Skill Fighters')
+                        ->subject('Confirmation Mail');
+            });
             return response()->json(['status_code'=>200,'message'=>'User has been created.','error'=>false,'user'=>$user],200);   
         }        
     }
@@ -73,7 +83,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {        
+    { 
         try {
             $user = User::findOrFail($id);    
             return response()->json(['status_code'=>200,'error'=>false,'user'=>$user],200);
