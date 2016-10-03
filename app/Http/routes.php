@@ -12,15 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('welcome');
 });
 Route::group(['prefix' => 'api'], function()
 {
 	Route::resource('authenticate', 'AuthenticateController');
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::resource('user', 'UserController');
-    Route::post('user', 'UserController@store');
-    Route::get('sendbasicemail','MailController@basic_email');
 });
 Route::group(array('prefix' => 'api/v1', 'before' => 'auth.basic'), function()
 {

@@ -3,7 +3,7 @@ return array(
   'driver' => 'smtp',
   'host' => 'smtp.gmail.com',
   'port' => 587,
-  'from' => array('address' => 'mymail@gmail.com', 'name' => 'myname'),
+  'from' => array('address' => 'skillfighters@gmail.com', 'name' => 'skillfighters'),
   'encryption' => 'tls',
   'username' => 'brinthamohanan17@gmail.com',
   'password' => 'remmgktfezlkegvm',

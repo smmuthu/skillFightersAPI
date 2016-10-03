@@ -50,30 +50,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        echo "test";exit;
+        // $data = $request->all();
+        // echo "<pre>";print_r($data);exit;
+        // $rules = [
+        //     'firstname' => 'required|regex:/^[A-Za-z. -]+$/',
+        //     'lastname' => 'required|regex:/^[A-Za-z. -]+$/',
+        //     'email' => 'required|email|unique:users',
+        //     'password' => 'required|min:6',
+        //     'phone_no' => 'required|min:10|numeric',
+        //     'department' => 'required|regex:/^[A-Za-z. -]+$/',
+        //     'occupation' => 'required|regex:/^[A-Za-z. -]+$/',
+        // ];
 
-        $rules = [
-            'name' => 'required|regex:/^[A-Za-z. -]+$/',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
-        ];
-
-        $validator = Validator::make($data,$rules);
-        if ($validator->fails()) {
-            $messages = $validator->errors()->all();            
-            return response()->json(['status_code'=>404,'message'=>'Invalid.','error'=>true,'validation'=>$messages],404);
-        }
-        else{
-            $data['password'] = Hash::make($request->input('password'));                        
-            $user = User::create($data);
-            $name = array('name'=>$request->input('name'));
-            $email = $request->input('email');
-            Mail::send('user.mail.welcome', $name, function($message) use ($user) {
-                $message->to($user->email, 'Skill Fighters')
-                        ->subject('Confirmation Mail');
-            });
-            return response()->json(['status_code'=>200,'message'=>'User has been created.','error'=>false,'user'=>$user],200);   
-        }        
+        // $validator = Validator::make($data,$rules);
+        // if ($validator->fails()) {
+        //     $messages = $validator->errors()->all();            
+        //     return response()->json(['status_code'=>404,'message'=>'Invalid.','error'=>true,'validation'=>$messages],404);
+        // }
+        // else{
+        //     $data['password'] = Hash::make($request->input('password'));                        
+        //     $user = User::create($data);
+        //     $name = array('name'=>$request->input('firstname'));
+        //     $email = $request->input('email');
+        //     Mail::send('user.mail.welcome', $name, function($message) use ($user) {
+        //         $message->to($user->email, 'Skill Fighters')
+        //                 ->subject('Confirmation Mail');
+        //     });
+        //     return response()->json(['status_code'=>200,'message'=>'User has been created.','error'=>false,'user'=>$user],200);   
+        // }        
     }
 
     /**
