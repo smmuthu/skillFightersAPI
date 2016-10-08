@@ -18,11 +18,10 @@ Route::group(['prefix' => 'api'], function()
 {
 	Route::resource('authenticate', 'AuthenticateController');
     Route::post('authenticate', 'AuthenticateController@authenticate');
-    Route::resource('user', 'UserController');
 });
 Route::group(array('prefix' => 'api/v1', 'before' => 'auth.basic'), function()
 {
-    Route::resource('user', 'UserController');
+    Route::resource('user', 'AccountController');
     Route::get('user/{id}', 'UserController@show');
     Route::put('user/{id}', 'UserController@update');
     Route::delete('user/{id}', 'UserController@destroy');

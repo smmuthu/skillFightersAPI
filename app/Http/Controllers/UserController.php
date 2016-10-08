@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        echo "test";exit;
+        //echo "test";exit;
         // $data = $request->all();
         // echo "<pre>";print_r($data);exit;
         // $rules = [
