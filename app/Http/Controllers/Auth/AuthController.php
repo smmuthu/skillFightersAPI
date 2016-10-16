@@ -72,7 +72,6 @@ class AuthController extends Controller
 
     public function signup(Request $request)
     {
-        echo "test";exit;
         $signupFields = Config::get('boilerplate.signup_fields');
         $hasToReleaseToken = Config::get('boilerplate.signup_token_release');
 

@@ -136,4 +136,29 @@ class AccountController extends Controller
     {
         //
     }
+    public function resetpassword(Request $request)
+    {        
+        try {
+            $users = User::where('email', '=' ,$request->input('email'));
+            $user = $users->first();           
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['status_code'=>404,'error'=>true,'message'=>'User not found.'],404);
+        }
+        if($user->email){
+            $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+            $pass = array(); //remember to declare $pass as an array
+            $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+            for ($i = 0; $i < 8; $i++) {
+                $n = rand(0, $alphaLength);
+                $pass[] = $alphabet[$n];
+            }
+            $password = implode($pass);
+            $user_details = array('name'=>$user->firstname,'password'=>$password);
+            Mail::send('user.mail.resetpassword',  $user_details, function($message) use ($user){
+                $message->to($user->email, 'Skill Fighters')
+                        ->subject('Reset Password');
+            }); 
+            return response()->json(['status_code'=>200,'error'=>false,'message'=>'User found.','password'=>implode($pass)],200);
+        }
+    }
 }

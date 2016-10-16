@@ -22,7 +22,8 @@ Route::group(['prefix' => 'api'], function()
 Route::group(array('prefix' => 'api/v1', 'before' => 'auth.basic'), function()
 {
     Route::resource('user', 'AccountController');
+    Route::post('resetpassword', 'AccountController@resetpassword');
     Route::get('user/{id}', 'UserController@show');
     Route::put('user/{id}', 'UserController@update');
-    Route::delete('user/{id}', 'UserController@destroy');
+    Route::delete('user/{id}', 'UserController@destroy');    
 });
